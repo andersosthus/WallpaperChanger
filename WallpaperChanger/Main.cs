@@ -80,7 +80,7 @@ namespace WallpaperChanger
         private void ShowSettings(object sender, EventArgs e)
         {
             LoadSettings();
-            WindowState = FormWindowState.Normal;
+            Show();
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -89,6 +89,7 @@ namespace WallpaperChanger
 
             LoadSettings();
             ConfigureNotificationIcon();
+            Hide();
 
             _cts = new CancellationTokenSource();
 
@@ -118,14 +119,14 @@ namespace WallpaperChanger
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
+            Hide();
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
             if (!SaveSettings()) return;
 
-            WindowState = FormWindowState.Minimized;
+            Hide();
 
             _cts.Cancel();
             _cts = new CancellationTokenSource();
