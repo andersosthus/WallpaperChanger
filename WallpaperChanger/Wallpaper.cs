@@ -5,6 +5,7 @@ using Microsoft.Win32;
 
 namespace WallpaperChanger
 {
+    // From http://stackoverflow.com/questions/1061678/change-desktop-wallpaper-using-code-in-net/1061682#1061682
     public static class Wallpaper
     {
         private const int SetDesktopWallpaper = 20;

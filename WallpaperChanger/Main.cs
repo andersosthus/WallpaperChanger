@@ -66,8 +66,7 @@ namespace WallpaperChanger
 
         private void ConfigureNotificationIcon()
         {
-            var icon = Path.GetFullPath(@".\Hopstarter-Sleek-Xp-Basic-Files.ico");
-            NotificationIcon.Icon = new Icon(icon);
+            NotificationIcon.Icon = Resource.Main;
             NotificationIcon.Visible = true;
             NotificationIcon.ContextMenu = _notificationMenu;
             NotificationIcon.Click += NextWallpaper;
