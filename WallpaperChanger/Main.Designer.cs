@@ -40,6 +40,7 @@
             this.ChangeInterval = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.StyleSelector = new System.Windows.Forms.ComboBox();
+            this.RunOnStartup = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // NotificationIcon
@@ -68,7 +69,7 @@
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(370, 70);
+            this.Save.Location = new System.Drawing.Point(391, 70);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 2;
@@ -89,7 +90,7 @@
             // 
             this.WallpaperFolder.Location = new System.Drawing.Point(164, 10);
             this.WallpaperFolder.Name = "WallpaperFolder";
-            this.WallpaperFolder.Size = new System.Drawing.Size(281, 20);
+            this.WallpaperFolder.Size = new System.Drawing.Size(302, 20);
             this.WallpaperFolder.TabIndex = 4;
             // 
             // label2
@@ -122,15 +123,26 @@
             this.StyleSelector.FormattingEnabled = true;
             this.StyleSelector.Location = new System.Drawing.Point(253, 43);
             this.StyleSelector.Name = "StyleSelector";
-            this.StyleSelector.Size = new System.Drawing.Size(192, 21);
+            this.StyleSelector.Size = new System.Drawing.Size(111, 21);
             this.StyleSelector.TabIndex = 8;
+            // 
+            // RunOnStartup
+            // 
+            this.RunOnStartup.AutoSize = true;
+            this.RunOnStartup.Location = new System.Drawing.Point(370, 46);
+            this.RunOnStartup.Name = "RunOnStartup";
+            this.RunOnStartup.Size = new System.Drawing.Size(98, 17);
+            this.RunOnStartup.TabIndex = 9;
+            this.RunOnStartup.Text = "Run on Startup";
+            this.RunOnStartup.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 104);
+            this.ClientSize = new System.Drawing.Size(478, 104);
             this.ControlBox = false;
+            this.Controls.Add(this.RunOnStartup);
             this.Controls.Add(this.StyleSelector);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ChangeInterval);
@@ -164,6 +176,7 @@
         private System.Windows.Forms.TextBox ChangeInterval;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox StyleSelector;
+        private System.Windows.Forms.CheckBox RunOnStartup;
     }
 }
 

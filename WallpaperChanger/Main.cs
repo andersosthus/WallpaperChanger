@@ -98,10 +98,12 @@ namespace WallpaperChanger
 
         private void LoadSettings()
         {
-            var names = Enum.GetNames(typeof (Style));
+            var names = Enum.GetNames(typeof(Style));
             StyleSelector.Items.AddRange(names);
             var selectedStyle = Settings.Default.SelectedStyle;
             StyleSelector.SelectedIndex = selectedStyle;
+
+            RunOnStartup.Checked = RegistryHelper.IsRunOnStartupEnabled();
 
             ChangeInterval.Text = Settings.Default.ChangeInterval.ToString();
             WallpaperFolder.Text = Settings.Default.WallpaperPath;
@@ -153,6 +155,12 @@ namespace WallpaperChanger
             Settings.Default.WallpaperPath = WallpaperFolder.Text;
 
             Settings.Default.Save();
+
+            if(RunOnStartup.Checked)
+                RegistryHelper.EnableRunOnStartup(Application.ExecutablePath);
+            else
+                RegistryHelper.DisableRunOnStartup();
+
             return true;
         }
     }
