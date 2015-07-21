@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,17 +35,35 @@ namespace WallpaperChanger
             };
             showItem.Click += ShowSettings;
 
-            var exitItem = new MenuItem
+            var deleteItem = new MenuItem
             {
                 Index = 1,
+                Text =  "Delete current image"
+            };
+            deleteItem.Click += DeleteImage;
+
+            var exitItem = new MenuItem
+            {
+                Index = 2,
                 Text = "E&xit"
             };
             exitItem.Click += Exit_Click;
 
-            _notificationMenuItems = new List<MenuItem> { showItem, exitItem };
+            _notificationMenuItems = new List<MenuItem> { showItem, deleteItem, exitItem };
 
             _notificationMenu = new ContextMenu();
             _notificationMenu.MenuItems.AddRange(_notificationMenuItems.ToArray());
+        }
+
+        private void DeleteImage(object sender, EventArgs e)
+        {
+            if (_wallpaper == null)
+                return;
+
+            var file = new FileInfo(_wallpaper.CurrentWallpaper);
+
+            SwitchToNextWallpaper();
+            File.Delete(file.ToString());
         }
 
         internal void DisplayNotification(string name)
@@ -59,9 +78,16 @@ namespace WallpaperChanger
             }
         }
 
-        internal void SetNotificationTooltip(string wallpaper)
+        internal void SetNotificationTooltip()
         {
-            NotificationIcon.Text = wallpaper;
+            if (_wallpaper == null)
+                return;
+
+            var file = new FileInfo(_wallpaper.CurrentWallpaper);
+            
+            NotificationIcon.Text = (file.Name.Length >= 64)
+                ? file.Name.Substring(0, 63)
+                : file.Name;
         }
 
         private void ConfigureNotificationIcon()
@@ -74,7 +100,19 @@ namespace WallpaperChanger
 
         private void NextWallpaper(object sender, EventArgs e)
         {
+            var args = e as MouseEventArgs;
+            if (args?.Button == MouseButtons.Left)
+            {
+                SwitchToNextWallpaper();
+            }
+        }
+
+        private void SwitchToNextWallpaper()
+        {
             _wallpaper.NextWallpaper(SetNotificationTooltip);
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+            var task = Task.Run(async () => await _wallpaper.Start(_cts.Token, SetNotificationTooltip));
         }
 
         private void ShowSettings(object sender, EventArgs e)

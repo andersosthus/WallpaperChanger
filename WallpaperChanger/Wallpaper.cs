@@ -22,7 +22,7 @@ namespace WallpaperChanger
             if (!Directory.Exists(path))
                 return null;
 
-            var files = Directory.GetFiles(path);
+            var files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
             var rand = new Random();
             var num = rand.Next(0, files.Length - 1);
 
@@ -54,9 +54,7 @@ namespace WallpaperChanger
 
             key.Close();
 
-            return (file.Name.Length >= 64)
-                ? file.Name.Substring(0,63)
-                : file.Name;
+            return wallpaperFullPath;
         }
     }
 }
