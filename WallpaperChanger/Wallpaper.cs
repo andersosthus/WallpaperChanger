@@ -15,24 +15,14 @@ namespace WallpaperChanger
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
-        public static string SetRandomWallpaperFromPath(string path, Style style)
+        public static void SetRandomWallpaperFromPath(FileInfo file, Style style)
         {
-            if (string.IsNullOrEmpty(path))
-                return null;
-            if (!Directory.Exists(path))
-                return null;
+            if (file == null) return;
 
-            var files = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-            var rand = new Random();
-            var num = rand.Next(0, files.Length - 1);
-
-            var wallpaperFullPath = files[num];
-            var file = new FileInfo(wallpaperFullPath);
-
-            SystemParametersInfo(SetDesktopWallpaper, 0, wallpaperFullPath, UpdateIniFile | SendWinIniChange);
+            SystemParametersInfo(SetDesktopWallpaper, 0, file.ToString(), UpdateIniFile | SendWinIniChange);
             var key = Registry.CurrentUser.OpenSubKey("Control Panel\\Desktop", true);
-            if (key == null)
-                return null;
+
+            if (key == null) return;
 
             switch (style)
             {
@@ -53,8 +43,6 @@ namespace WallpaperChanger
             }
 
             key.Close();
-
-            return wallpaperFullPath;
         }
     }
 }

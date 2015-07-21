@@ -64,6 +64,7 @@ namespace WallpaperChanger
 
             SwitchToNextWallpaper();
             File.Delete(file.ToString());
+            _wallpaper.ResetCache();
         }
 
         internal void DisplayNotification(string name)
@@ -167,6 +168,7 @@ namespace WallpaperChanger
             if (!SaveSettings()) return;
 
             Hide();
+            _wallpaper.ResetCache();
 
             _cts.Cancel();
             _cts = new CancellationTokenSource();
