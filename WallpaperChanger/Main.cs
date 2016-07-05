@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using WallpaperChanger.Properties;
 
 namespace WallpaperChanger
@@ -54,7 +57,7 @@ namespace WallpaperChanger
             _notificationMenu = new ContextMenu();
             _notificationMenu.MenuItems.AddRange(_notificationMenuItems.ToArray());
         }
-
+        
         private void DeleteImage(object sender, EventArgs e)
         {
             if (_wallpaper == null)
@@ -114,6 +117,29 @@ namespace WallpaperChanger
             _cts.Cancel();
             _cts = new CancellationTokenSource();
             var task = Task.Run(async () => await _wallpaper.Start(_cts.Token, SetNotificationTooltip));
+
+            var filePath = @"C:\Users\ander\OneDrive\Pictures\Wallpaper - NSFW\102 - 424HMfp.jpg";
+            using (var img = new Bitmap(filePath))
+            {
+                try
+                {
+                    var tag = img.GetPropertyItem(40094);
+                    if (tag != null)
+                    {
+                        var foundTags = Encoding.Unicode.GetString(tag.Value).Replace("\0", string.Empty);
+                    }
+                }
+                catch (ArgumentException)
+                {
+                }
+            }
+
+            using (var jpegStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                var decoder = BitmapDecoder.Create(jpegStream, BitmapCreateOptions.None, BitmapCacheOption.Default);
+                var jpegFrame = decoder.Frames[0];
+                var metadata = (BitmapMetadata)jpegFrame.Metadata;
+            }
         }
 
         private void ShowSettings(object sender, EventArgs e)
